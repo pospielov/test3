@@ -77,14 +77,14 @@ ion-item ion-reorder:not([slot]) {
 	}
 
 }
-ion-menu::part(container) {
-	box-sizing: border-box;
-}
 ion-toolbar {
 	width: auto;
 }
 ion-toolbar.ios ion-title.title-large {
 	text-align: center;
+}
+ion-menu::part(container) {
+	box-sizing: border-box;
 }
 @media (min-width: 768px) {
 	ion-modal {

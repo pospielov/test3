@@ -15,6 +15,11 @@ const routes: Routes = [{
         loadChildren: () =>
             import ('./Screen1/Screen1.module').then(m => m.Screen1PageModule),
     },
+    {
+        path: 'screen3',
+        loadChildren: () =>
+            import ('./Screen3/Screen3.module').then(m => m.Screen3PageModule),
+    },
 ];
 @NgModule({
     imports: [RouterModule.forRoot(
