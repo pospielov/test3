@@ -23,8 +23,7 @@
               {
                 "glob": "**/*",
                 "input": "src/assets",
-                "output": "assets"
-              },
+                "output": "assets"              },
               {
                 "glob": "**/*.svg",
                 "input": "node_modules/ionicons/dist/ionicons/svg",
@@ -40,10 +39,10 @@
                 "./node_modules/@swimlane/ngx-datatable/themes/bootstrap.css",
                 "./node_modules/@swimlane/ngx-datatable/assets/icons.css",
                 "src/scss/__aio_variables.scss",
-                
-                "src/theme/Default_testfunc.scss","src/theme/Default.scss",
 
-                "src/scss/variables_testfunc.scss","src/scss/variables.scss",
+                "src/theme/Default.scss",
+
+                "src/scss/variables.scss",
               {
                 "input": "src/global.scss"
               }
