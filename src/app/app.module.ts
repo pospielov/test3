@@ -65,6 +65,9 @@ import {
     AppRoutingModule
 } from './app-routing.module';
 import {
+    ExportedClass as test_test_read_service
+} from './scripts/services/test_test_read_service';
+import {
     WebView
 } from '@ionic-native/ionic-webview/ngx';
 import {
@@ -139,6 +142,7 @@ var getIonicModuleConfig, getIonicStorageModuleConfig;
             provide: Sanitizer,
             useClass: NgDompurifySanitizer,
         },
+        test_test_read_service,
     ]
 })
 export class AppModule {}

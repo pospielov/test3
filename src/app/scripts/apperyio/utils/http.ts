@@ -316,9 +316,10 @@ export var UtilsHttp = {
         }
     },
     
-    sc: async function(scriptName, body, options: any = {}) {
+    sc: async function(scriptName, body = {}, options: any = {}) {
         if (!scriptName.includes('.')) scriptName = "Settings." + scriptName;
-        return await this.post(`${apiHost}/rest/1/code/${this.config.get(scriptName)}/exec`, body, options);
+        let opt = {...options, headers: {...this.db.headers, ...options.headers}};
+        return await this.post(`${apiHost}/rest/1/code/${this.config.get(scriptName)}/exec`, body, opt);
     },
 
 };
@@ -345,5 +346,5 @@ export interface UtilsHttpInterface {
     delete(url: string, options?): Promise<any>;
     saveFile(data: Blob|string, fileName: string): void;
     saveTextFile(text: string, fileName: string): void;
-    sc(scriptName: string, body, options?): Promise<any>;
+    sc(scriptName: string, body?, options?): Promise<any>;
 };

@@ -68,6 +68,9 @@ import {
 } from '@ngx-translate/core';
 import _ from "lodash";
 import moment from "moment";
+import {
+    openai
+} from "aio-openai";
 // Mixins with Utils methods
 import {
     UtilsCommon,
@@ -124,6 +127,7 @@ export class ApperyioHelperService {
     public vars: {
         [name: string]: any
     } = {};
+    public openai;
     public _ = _;
     public moment = moment;
     get path() {
@@ -165,6 +169,11 @@ export class ApperyioHelperService {
         this.vars = ( < any > this.data)._variables;
         context.$v = this.vars;
         this.initUtils();
+        this.openai = openai;
+        const openaiApiKey = this.config.get("Settings.openaiApiKey");
+        if (openaiApiKey) {
+            this.openai.init(openaiApiKey, this);
+        }
         ( < any > window)._ = _;
         ( < any > window).moment = moment;
     }
@@ -405,6 +414,9 @@ export class ApperyioHelperService {
         return this.platform.is('ios');
     }
     isMobile(): boolean {
+        if (location.href.includes("hot_reload=true") || location.href.includes("preview_build=true")) {
+            return true;
+        }
         return this.platform.is('cordova');
     }
     isBrowser(): boolean {

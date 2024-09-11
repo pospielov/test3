@@ -86,8 +86,27 @@ export var UtilsCommon = {
         _.pull.call(_, array, ...items);
         return [...array];
     },
-    
+
+    saveToArray: function (array, item, idField = "_id") {
+        if (item?.hasOwnProperty?.(idField)) {
+            for (let obj of array) {
+                if (obj?.hasOwnProperty?.(idField) && obj[idField] == item[idField]) {
+                    this.replaceObject(obj, item);
+                    return;
+                }    
+            }
+        } else {
+            for (let i = 0; i < array.length; i++) {
+                if (array[i] === item) {
+                    return;
+                }
+            }
+        }
+        array.push(item);
+    },
+
     hasString: function(source: string[]|string, str: string, caseSensitive = false): boolean {
+        if (str === undefined) str = "";
         if (str === "") return true;
         if (!str || !source) return false;
         if (!_.isArray(source)) {
@@ -245,10 +264,11 @@ export var UtilsCommon = {
         return toast;
     },
 
-    alert: async function(message, header?, func?, options: {cssClass?, subHeader?, backdropDismiss?, htmlAttributes?, buttons?: any[], buttonText?: string} = {}) {
+    alert: async function(message, header?, func?, options: {cssClass?, subHeader?, backdropDismiss?, htmlAttributes?, buttons?: any[], buttonText?: string, mode?: string} = {}) {
         const alert = await this.getController("AlertController").create({
             header: header ? this.translate.instant(header) : undefined,
             message: message ? this.translate.instant(message) : undefined,
+            mode: options?.mode ? options.mode : undefined,
             cssClass: options?.cssClass || '',
             subHeader: options?.subHeader ? this.translate.instant(options.subHeader) : undefined,
             backdropDismiss: options?.backdropDismiss !== undefined ? options?.backdropDismiss : true,
@@ -256,7 +276,7 @@ export var UtilsCommon = {
             buttons: options.buttons || [{
                 text: this.translate.instant(options.buttonText || 'Ok'),
                 handler: () => {
-                    func && _.isFunction(func) && func();
+                    if (_.isFunction(func)) return func();
                 }
             }]
         });
@@ -265,10 +285,11 @@ export var UtilsCommon = {
         return alert;
     },
 
-    alertOkCancel: async function(message, header, funcOk?, funcCancel?, options: {cssClass?, subHeader?, backdropDismiss?, htmlAttributes?} = {}) {
+    alertOkCancel: async function(message, header, funcOk?, funcCancel?, options: {cssClass?, subHeader?, backdropDismiss?, htmlAttributes?, mode?: string} = {}) {
         const alert = await this.getController("AlertController").create({
             header: header ? this.translate.instant(header) : undefined,
             message: message ? this.translate.instant(message) : undefined,
+            mode: options?.mode ? options.mode : undefined,
             cssClass: options?.cssClass || '',
             subHeader: options?.subHeader ? this.translate.instant(options.subHeader) : undefined,
             backdropDismiss: options?.backdropDismiss !== undefined ? options?.backdropDismiss : true,
@@ -278,12 +299,12 @@ export var UtilsCommon = {
                 role: 'cancel',
                 cssClass: 'secondary',
                 handler: () => {
-                    funcCancel && _.isFunction(funcCancel) && funcCancel();
+                    if (_.isFunction(funcCancel)) return funcCancel();
                 }
             }, {
                 text: this.translate.instant('Ok'),
                 handler: () => {
-                    funcOk && _.isFunction(funcOk) && funcOk();
+                    if (_.isFunction(funcOk)) return funcOk();
                 }
             }]
         });
@@ -465,6 +486,7 @@ export var UtilsCommon = {
     },
 
     replaceObject: function(origin, source) {
+        if (origin === source) return;
         Object.keys(origin).forEach(key => delete origin[key]);
         _.assign(origin, source);
     },
@@ -725,6 +747,7 @@ export interface UtilsCommonInterface {
     hexToRGB(hex: string, alpha?: number): string;
     filterArray(array: any[], condition: Function|Object|string): any[];
     removeFromArray(array: any[], ...items): any[];
+    saveToArray(array: any[], item, idField?: string): void;
     hasString(source: string[]|string, str: string, caseSensitive?: boolean): boolean;
     hasValue(source: any, value?: any): boolean;
     generatePassword(len?: number): string;
@@ -739,8 +762,8 @@ export interface UtilsCommonInterface {
     getValueFromObject(obj, properties?: string[], notNull?: boolean);
     showError(e): Promise<any>;
     toast(message: string, header?: string, options?: {color?: string, position?: string, duration?: number, buttons?: any}): Promise<any>;
-    alert(message: string, header?: string, func?: Function, options?: {cssClass?: string, subHeader?: string, backdropDismiss?: boolean, htmlAttributes?, buttons?: any[], buttonText?: string}): Promise<any>;
-    alertOkCancel(message: string, header?: string, funcOk?: Function, funcCancel?: Function, options?: {cssClass?: string, subHeader?: string, backdropDismiss?: boolean, htmlAttributes?}): Promise<any>;
+    alert(message: string, header?: string, func?: Function, options?: {cssClass?: string, subHeader?: string, backdropDismiss?: boolean, htmlAttributes?, buttons?: any[], buttonText?: string, mode?: string}): Promise<any>;
+    alertOkCancel(message: string, header?: string, funcOk?: Function, funcCancel?: Function, options?: {cssClass?: string, subHeader?: string, backdropDismiss?: boolean, htmlAttributes?, mode?: string}): Promise<any>;
     markFormAsTouched(form, markAllAsTouched?: boolean): boolean;
     closeModal(data?: any);
     modal(screenName: string, componentProps?, options?): Promise<any>;

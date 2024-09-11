@@ -9,6 +9,10 @@ ion-app.web-browser .aio-web-browser-hide,
 	opacity: 0.5;
 	pointer-events: none;
 }
+.aio-readonly {
+	cursor: not-allowed;
+	pointer-events: none;
+}
 .aio-validation-error {
 	color: var(--ion-color-danger);
 	--padding-top: 5px;

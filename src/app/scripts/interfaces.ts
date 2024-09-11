@@ -14,3 +14,14 @@ declare global {
 }
 // Appery.io models
 export interface $aio_empty_object {};
+//
+interface __test_test_read_serviceResponse_sub_001 {}
+export interface test_test_read_serviceResponse {
+    "_createdAt": string,
+    "_updatedAt": string,
+    "test3": string,
+    "acl": __test_test_read_serviceResponse_sub_001,
+    "test2": string,
+    "test": string,
+    "_id": string
+}

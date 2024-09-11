@@ -27,9 +27,13 @@ export const UtilsSecureStorage: UtilsSecureStorageInterface = {
       });
     } else {
       showWarning(this);
-      const bytes = CryptoJS.AES.decrypt(localStorage["secure_" + key], key) ?? null;
-      const value = bytes && bytes.toString(CryptoJS.enc.Utf8);
+      const v = localStorage["secure_" + key];
+      if (!v) return v;
+      let value;
       try {
+        const bytes = CryptoJS.AES.decrypt(localStorage["secure_" + key], key) ?? null;
+        value = bytes && bytes.toString(CryptoJS.enc.Utf8);
+
         const parsedValue = JSON.parse(value);
         return parsedValue;
       } catch(e) {

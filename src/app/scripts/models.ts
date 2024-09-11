@@ -24,6 +24,89 @@ export var models = {
     },
     "Observable": {
         "type": "Observable"
+    },
+    "test_test_read_service": {
+        "type": "object",
+        "properties": {
+            "url": {
+                "type": "string",
+                "default": "http://localhost/rest/1/db/collections/test/{_id}"
+            },
+            "method": {
+                "type": "string",
+                "default": "get"
+            },
+            "request": {
+                "type": "object",
+                "properties": {
+                    "body": {
+                        "type": "object",
+                        "properties": {}
+                    },
+                    "query": {
+                        "type": "object",
+                        "properties": {
+                            "_id": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "headers": {
+                        "type": "object",
+                        "properties": {
+                            "X-Appery-Session-Token": {
+                                "type": "string"
+                            },
+                            "X-Appery-Database-Id": {
+                                "type": "string",
+                                "default": "{test_settings.database_id}"
+                            }
+                        }
+                    }
+                }
+            },
+            "response": {
+                "type": "object",
+                "properties": {
+                    "body": {
+                        "type": "object",
+                        "properties": {
+                            "$": {
+                                "type": "object",
+                                "properties": {
+                                    "_createdAt": {
+                                        "type": "string"
+                                    },
+                                    "_updatedAt": {
+                                        "type": "string"
+                                    },
+                                    "test3": {
+                                        "type": "string"
+                                    },
+                                    "acl": {
+                                        "type": "object",
+                                        "properties": {}
+                                    },
+                                    "test2": {
+                                        "type": "string"
+                                    },
+                                    "test": {
+                                        "type": "string"
+                                    },
+                                    "_id": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "headers": {
+                        "type": "object",
+                        "properties": {}
+                    }
+                }
+            }
+        }
     }
 };
 /**
@@ -35,11 +118,5 @@ export const _aioDefStorageValues = {
     storages: {
     },
     functions: {
-        test: function(test1, test2) {
-            return 1 + 1;
-        },
-        test2: async function(test3) {
-            return 2 + 2;
-        }
     }
 }
